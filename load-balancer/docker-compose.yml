@@ -1,0 +1,17 @@
+services:
+  load-balancer:
+    container_name: load_balancer
+    image: jwilder/nginx-proxy:latest
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    environment:
+        - DEFAULT_HOST=proxy.example
+    ports:
+        - "80:80"
+  app:
+    # container_name: app
+    build: ./app
+    environment:
+      - VIRTUAL_HOST=proxy.example
+    ports:
+      - "8080"
